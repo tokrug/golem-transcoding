@@ -1,0 +1,18 @@
+.transcoding-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background: #6cf;
+}
+
+.spinner-border-lg {
+  width: 10rem;
+  height: 10rem;
+  border-width: 0.75em;
+}
+
+.content-container {
+  min-height: calc(100vh - 116px);
+  padding: 10px;
+}

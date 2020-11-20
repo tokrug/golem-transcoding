@@ -1,0 +1,4 @@
+golem:
+  scriptLocation: "<absolute path to requestor script folder>"
+  yagnaKey: "<Yagna requestor app key>"
+  inputFileLocation: "<absolute path to the folder where input files will be stored>"

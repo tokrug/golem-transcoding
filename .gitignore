@@ -1,0 +1,15 @@
+__pycache__
+.vscode
+venv
+.idea
+.gradle
+*.gvmi
+*.iml
+requestor-python/output/*
+!requestor-python/output/.gitkeep
+node_modules
+package-lock.json
+yarn.lock
+build
+app.css
+app.js
