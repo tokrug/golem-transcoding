@@ -5,10 +5,11 @@ import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.krug.yagna.transcoding.Application;
 import pl.krug.yagna.transcoding.job.event.TranscodingEvent;
 
 @Configuration
-@ConfigurationPropertiesScan
+@ConfigurationPropertiesScan(basePackageClasses = Application.class)
 public class RequestorConfiguration {
 
     @Bean

@@ -51,6 +51,8 @@ Transcoding requestor setup
 
 Server setup
 1. Setup JDK 8 using AdoptJDK [website](https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot) or with `apt install openjdk-8-jdk`.
+1. `apt install python` (Python 2 is required for compilation of fibers package
+1. `apt install nodejs`
 1. `cd golem-transcoding/requestor-spring`
 1. `./gradlew :bootJar`
 1. `cp build/libs/requestor-spring-1.0.0.jar ~/` (or any other location)
