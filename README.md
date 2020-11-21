@@ -33,34 +33,43 @@ Here's a YouTube video explaining how the whole system works.
 ## Setup
 
 Golem setup. If you encounter an issue then refer to https://handbook.golem.network/requestor-tutorials/flash-tutorial-of-requestor-development for full set of instructions.
-
-1. Install python 3
-1. `pip install venv`
 1. `curl -sSf https://join.golem.network/as-requestor | bash -`
-2. `~/.local/bin/yagna service run`
+2. `~/.local/bin/yagna service run` / `screen -S yagna -L -d -m ~/.local/bin/yagna service run`
 3. `~/.local/bin/yagna payment init -r`
 4. `yagna app-key create requestor`
 5. Store the key for later.
 
-Transcoding requestor setup
+App prerequisite
 1. `git clone https://github.com/Edhendil/golem-transcoding.git`
+
+Transcoding requestor setup
+1. Install python 3: `apt install python3`
+1. Install pip: `apt install python3-pip`
+1. `apt install python3-venv`
 1. `cd golem-transcoding/requestor-python`
 1. `./create-venv.sh` 
 
-Frontend app setup
-1. `cd golem-transcoding/requestor-spring/src/main/js`
-1. `yarn`
-1. `yarn build:prod`
-
-Backend app setup
-1. Setup JDK 8 using AdoptJDK [website](https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot)
-1. `cd golem-transcoding/requestor-spring/src/main/resources`
-1. Edit file `application.yml`
+Server setup
+1. Setup JDK 8 using AdoptJDK [website](https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot) or with `apt install openjdk-8-jdk`.
+1. `cd golem-transcoding/requestor-spring`
+1. `./gradlew :bootJar`
+1. `cp build/libs/requestor-spring-1.0.0.jar ~/` (or any other location)
+1. `cd ~`
+1. Create `application.yml` file right next to the `requestor-spring-1.0.0.jar` file
 1. Set golem.scriptLocation to the absolute path of the requestor-python folder in the cloned repository. Example: `"/home/your-user/golem-transcoding/requestor-python"`.
 1. Set golem.yagnaKey to the requestor key generated through the `yagna app-key create requestor` command. Example: `"a0f1a0b7af0a42bcab0361f39dfd42b4"`
 1. Set golem.inputFileLocation to the absolute path of the folder where you want to store the input video files. Example: `"/home/your-user/transcoding-inputs"`. Be sure to create such folder first.
-1. `cd golem-transcoding`
-1. `./gradlew :bootRun`
+1. Final file should look like this: 
+    ```yml
+    golem:
+      scriptLocation: "<absolute path to requestor script folder>"
+      yagnaKey: "<Yagna requestor app key>"
+      inputFileLocation: "<absolute path to the folder where input files will be stored>"
+    ```
+1. `java -jar requestor-spring-1.0.0.jar` / `screen -S transcoding -L -d -m java -jar requestor-spring-1.0.0.jar`
+
+Access the webapp
+1. Open browser and go to `localhost:8080`
 
 ## Licence
 
