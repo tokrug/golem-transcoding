@@ -1,3 +1,3 @@
 #!/bin/bash
 source ./venv/bin/activate
-python ./requestor.py "$@" | tee -a ./requestor.log
+python -u ./requestor.py "$@" | tee -a ./requestor.log
