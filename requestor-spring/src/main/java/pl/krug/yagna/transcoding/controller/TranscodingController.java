@@ -33,8 +33,11 @@ public class TranscodingController {
     @PostMapping(value = "/api/transcode", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Mono<ResponseEntity<?>> uploadFile(@RequestPart("files") FilePart filePart, @RequestHeader("Content-Length") long contentLength) {
         try {
-            Path inputFilePath = Files.createFile(Paths.get(configuration.getInputFileLocation() + "/" + UUID.randomUUID().toString()));
+            String inputPathString = configuration.getInputFileLocation() + "/" + UUID.randomUUID().toString();
+            log.info("Creating input file: {}", inputPathString);
+            Path inputFilePath = Files.createFile(Paths.get(inputPathString));
             if (!isSizeValid(contentLength)) {
+                log.info("Input file too big: {}", inputPathString);
                 return Mono.just(ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                         .body(UnprocessableEntityError.SIZE_TOO_BIG));
             }
@@ -69,7 +72,7 @@ public class TranscodingController {
     }
 
     private boolean isSizeValid(long length) {
-        return length <= 1024 * 1024 * 10;
+        return length <= configuration.getMaxUpload().toBytes();
     }
 
 

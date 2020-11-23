@@ -46,7 +46,7 @@ export default function Homepage() {
                         If processing takes a long time be sure to store the job ID! This is the only way to access output files.
                     </p>
                     <p>
-                        Due to server constraints where this application is deployed uploaded file size must be smaller than 10 MB.
+                        Due to server constraints where this application is deployed uploaded file size must be smaller than 100 MB.
                         Output files are removed automatically an hour after the transcoding job has been finished.
                     </p>
                     <hr className="my-4" />

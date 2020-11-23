@@ -3,6 +3,7 @@ package pl.krug.yagna.transcoding.cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -13,8 +14,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -30,23 +29,27 @@ public class ScheduleCleanup {
     private final ScriptConfiguration scriptConfiguration;
 
     @EventListener
-    public void handleContextStart(ContextStartedEvent cse) {
-        Flux.interval(Duration.ofHours(1))
+    public void handleContextStart(ApplicationReadyEvent are) {
+        log.info("Registering data cleanup job");
+        Flux.interval(Duration.ofMinutes(1))
                 .doOnNext(time -> clean())
                 .subscribeOn(Schedulers.parallel())
-                .subscribe();
+                .subscribe((number) -> {}, error -> log.error("Error occurred during data cleaning.", error));
     }
 
     private void clean() {
-        long hourInThePast = Instant.now().minus(Duration.ofHours(1)).getEpochSecond();
+        log.info("Commencing cleanup");
+        long hourInThePast = Instant.now().minus(scriptConfiguration.getCleanupPeriod()).getEpochSecond();
         List<TranscodingJob> oldJobs = repository.getCompletedJobsOlderThan(hourInThePast);
         oldJobs.forEach(this::cleanJob);
+        log.info("Commencing completed");
     }
 
     private void cleanJob(TranscodingJob job) {
+        log.info("Started removal of job data: {}", job.getId());
         cleanOutput(job);
-        cleanInput(job);
         cleanDatabase(job);
+        log.info("Cleaned job: {}", job.getId());
     }
 
     private void cleanOutput(TranscodingJob job) {
@@ -58,24 +61,12 @@ public class ScheduleCleanup {
         }
     }
 
-    private void cleanInput(TranscodingJob job) {
-        try {
-            Files.deleteIfExists(Paths.get(calculateInputFilePath(job.getInputPath())));
-        } catch (IOException e) {
-            log.error("Could not clean the input for job: " + job.getId(), e);
-        }
-    }
-
     private void cleanDatabase(TranscodingJob job) {
         repository.remove(job);
     }
 
     private String calculateOutputFolder(String jobId) {
         return scriptConfiguration.getScriptLocation() + "/output/" + jobId;
-    }
-
-    private String calculateInputFilePath(String inputId) {
-        return scriptConfiguration.getInputFileLocation() + "/" + inputId;
     }
 
 }

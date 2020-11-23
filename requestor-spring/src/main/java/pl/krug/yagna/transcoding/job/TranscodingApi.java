@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 import pl.krug.yagna.transcoding.commandline.RequestorScript;
 import pl.krug.yagna.transcoding.controller.UploadedFile;
 import pl.krug.yagna.transcoding.job.event.*;
-import pl.krug.yagna.transcoding.job.TranscodingJob;
-import pl.krug.yagna.transcoding.job.TranscodingJobDto;
-import pl.krug.yagna.transcoding.job.TranscodingJobRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -52,6 +49,7 @@ public class TranscodingApi {
                 .doOnNext(event -> handleEvent(job, event))
                 .subscribeOn(Schedulers.boundedElastic())
                 .subscribe((item) -> {}, error -> log.error("Error occurred when executing the transcoding script", error));
+        log.info("Started transcoding for job: {}", job.getId());
     }
 
 
@@ -59,6 +57,7 @@ public class TranscodingApi {
         log.info("Received event: {}", event);
         repository.add(event);
         if (event instanceof TranscodingFinishedEvent) {
+            log.info("Removing input file for job: {}", job.getId());
             removeTemporaryFile(job.getInputPath());
         }
         eventStream.emitEvent(event);

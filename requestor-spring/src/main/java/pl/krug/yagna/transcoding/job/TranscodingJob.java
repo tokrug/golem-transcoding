@@ -1,7 +1,5 @@
 package pl.krug.yagna.transcoding.job;
 
-import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import org.dizitart.no2.objects.Id;
 import pl.krug.yagna.transcoding.job.event.*;
