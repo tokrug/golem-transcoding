@@ -63,7 +63,7 @@ export default function Homepage() {
                                             <input type="file" accept="video/*" name="file" className="custom-file-input" id="fileUpload" aria-describedby="fileUploadHelp" ref={register({
                                                 required: true,
                                                 validate: {
-                                                    fileSize: value => value[0].size < 10 * 1024 * 1024
+                                                    fileSize: value => value[0].size < 100 * 1024 * 1024
                                                 } })} />
                                             <label className="custom-file-label" htmlFor="fileUpload">{currentFilename()}</label>
                                             <small id="fileUploadHelp" className="form-text text-muted">Video to be encoded to different formats.</small>
