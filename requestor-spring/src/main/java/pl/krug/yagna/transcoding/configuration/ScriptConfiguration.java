@@ -17,7 +17,7 @@ public class ScriptConfiguration {
     private final String scriptLocation;
     private final String yagnaKey;
     private final String inputFileLocation;
-    private final Duration cleanupPeriod;
+    private final Duration dataRetention;
     private final DataSize maxUpload;
 
 }

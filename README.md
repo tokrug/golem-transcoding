@@ -61,12 +61,16 @@ Server setup
 1. Set golem.scriptLocation to the absolute path of the requestor-python folder in the cloned repository. Example: `"/home/your-user/golem-transcoding/requestor-python"`.
 1. Set golem.yagnaKey to the requestor key generated through the `yagna app-key create requestor` command. Example: `"a0f1a0b7af0a42bcab0361f39dfd42b4"`
 1. Set golem.inputFileLocation to the absolute path of the folder where you want to store the input video files. Example: `"/home/your-user/transcoding-inputs"`. Be sure to create such folder first.
+1. Set golem.dataRetention to how long data about the jobs and their outputs should be stored. Example: `"1h"`.
+1. Set golem.maxUpload to the max size of an accepted input file. KB, MB, GB suffixes are supported. Example: `"100MB"`
 1. Final file should look like this: 
     ```yml
     golem:
       scriptLocation: "<absolute path to requestor script folder>"
       yagnaKey: "<Yagna requestor app key>"
       inputFileLocation: "<absolute path to the folder where input files will be stored>"
+      dataRetention: "<how long should information about a job be kept in storage>"
+      maxUpload: "<maximal size of the input file>"
     ```
 1. `java -jar requestor-spring-1.0.0.jar` / `screen -S transcoding -L -d -m java -jar requestor-spring-1.0.0.jar`
 

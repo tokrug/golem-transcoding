@@ -2,5 +2,5 @@ golem:
   scriptLocation: "<absolute path to requestor script folder>"
   yagnaKey: "<Yagna requestor app key>"
   inputFileLocation: "<absolute path to the folder where input files will be stored>"
-  cleanupPeriod: "<how long should information about a job be kept in storage>"
-  maxUploadSize: "<maximal size of the input file>"
+  dataRetention: "<how long should information about a job be kept in storage>"
+  maxUpload: "<maximal size of the input file>"

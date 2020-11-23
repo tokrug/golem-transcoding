@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import pl.krug.yagna.transcoding.configuration.ScriptConfiguration;
@@ -39,7 +38,7 @@ public class ScheduleCleanup {
 
     private void clean() {
         log.info("Commencing cleanup");
-        long hourInThePast = Instant.now().minus(scriptConfiguration.getCleanupPeriod()).getEpochSecond();
+        long hourInThePast = Instant.now().minus(scriptConfiguration.getDataRetention()).getEpochSecond();
         List<TranscodingJob> oldJobs = repository.getCompletedJobsOlderThan(hourInThePast);
         oldJobs.forEach(this::cleanJob);
         log.info("Commencing completed");
