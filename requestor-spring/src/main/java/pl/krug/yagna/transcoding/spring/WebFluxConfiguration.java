@@ -20,16 +20,4 @@ public class WebFluxConfiguration implements WebFluxConfigurer {
         registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");
     }
 
-    @Override
-    public void configureHttpMessageCodecs(ServerCodecConfigurer configurer) {
-        SynchronossPartHttpMessageReader partReader = new SynchronossPartHttpMessageReader();
-        partReader.setMaxParts(1);
-        partReader.setMaxDiskUsagePerPart(scriptConfiguration.getMaxUpload().toBytes());
-        partReader.setEnableLoggingRequestDetails(true);
-
-        MultipartHttpMessageReader multipartReader = new MultipartHttpMessageReader(partReader);
-        multipartReader.setEnableLoggingRequestDetails(true);
-
-        configurer.defaultCodecs().multipartReader(multipartReader);
-    }
 }
