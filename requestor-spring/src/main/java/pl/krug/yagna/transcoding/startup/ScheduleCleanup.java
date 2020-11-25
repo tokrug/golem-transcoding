@@ -1,4 +1,4 @@
-package pl.krug.yagna.transcoding.cleanup;
+package pl.krug.yagna.transcoding.startup;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

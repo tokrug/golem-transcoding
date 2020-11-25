@@ -2,6 +2,7 @@ package pl.krug.yagna.transcoding.configuration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.util.unit.DataSize;
@@ -12,6 +13,7 @@ import java.time.Duration;
 @ConstructorBinding
 @RequiredArgsConstructor
 @Getter
+@ToString
 public class ScriptConfiguration {
 
     private final String scriptLocation;
